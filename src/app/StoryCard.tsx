@@ -79,7 +79,8 @@ function CoverageBar({ sources }: { sources: string[] }) {
 
 export default function StoryCard({ group }: { group: StoryGroup }) {
   const isBlindspot = group.sources.length === 1;
-  const [isOpen, setIsOpen] = useState(false);
+  const [isExpertOpen, setIsExpertOpen] = useState(false);
+  const [isBackgroundOpen, setIsBackgroundOpen] = useState(false);
   const uniqueSources = [...new Set(group.sources)];
 
   return (
@@ -149,24 +150,52 @@ export default function StoryCard({ group }: { group: StoryGroup }) {
       )}
       <div className="flex justify-end w-full">
   <button
-    onClick={() => setIsOpen(!isOpen)}
-    className="text-xs bg-white text-gray-900 px-3 py-1.5 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+    onClick={() => setIsExpertOpen(!isExpertOpen)}
+    className={"text-xs text-gray-900 px-3 py-1.5 rounded-full font-semibold hover:bg-gray-100 transition-colors " + (isExpertOpen && "bg-green-400")}
   >
     Expert comments
   </button>
 </div>
 
-{isOpen && (
+{isExpertOpen && (
   <div className="mt-2 text-sm text-gray-700 space-y-2">
     <p>
       – I have not heard before that there has been a particular need for such
       instructions. It has also been noted in the public debate that there have
       been very few such cases.
     </p>
-    <p className="font-semibold">Shramarke Aw-Musse</p>
-    <p className="text-gray-500">Imam of Myyrmäki Mosque</p>
+    <p className="font-semibold text-center">Shramarke Aw-Musse</p>
+    <p className="text-gray-500 text-center">Imam of Myyrmäki Mosque</p>
   </div>
 )}
+<div className="flex justify-end w-full " >
+  <button
+    onClick={() => setIsBackgroundOpen(!isBackgroundOpen)}
+    className={"text-xs text-gray-900 px-3 py-1.5 rounded-full font-semibold hover:bg-gray-100 transition-colors "+ (isBackgroundOpen && "bg-green-400")}
+  >
+    Background info
+  </button>
+</div>
+
+{isBackgroundOpen && (
+  <div className="mt-2 text-sm text-gray-700 space-y-2">
+    <p>
+      – This is related to the background of the topic that we will think about the topic in the 
+      Finnish society and outside of it. And it started as a political thing
+      in 2002 but now it has grown to bigger.
+    </p>
+    <p className="font-semibold text-center">Source: 3.5.2013 <a className="underline" href="www.website.com">www.website.com</a></p>
+  </div>
+)}
+
+
+<div className="flex justify-end w-full " >
+  <button
+    className={"text-xs text-gray-900 px-3 py-1.5 rounded-full font-semibold hover:bg-gray-100 transition-colors "+ (isBackgroundOpen && "bg-green-400")}
+  >
+    &#x279A; View Statement
+  </button>
+</div>
     </article>
   );
 }
