@@ -1,4 +1,5 @@
-import { getStoryGroups, type StoryGroup } from "@/lib/feeds";
+import { getStoryGroups } from "@/lib/feeds";
+import StoryCard from "@/app/StoryCard";
 
 export const revalidate = 300;
 
@@ -45,107 +46,11 @@ function sourceColor(name: string): string {
   return color;
 }
 
-function timeAgo(date: Date): string {
-  const diff = Date.now() - date.getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 1) return "juuri nyt";
-  if (mins < 60) return `${mins} min`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs} t`;
-  const days = Math.floor(hrs / 24);
-  if (days < 7) return `${days} pv`;
-  return `${Math.floor(days / 7)} vk`;
-}
 
-function CoverageBar({ sources }: { sources: string[] }) {
-  const unique = [...new Set(sources)];
-  return (
-    <div className="flex h-1.5 w-full rounded-full overflow-hidden gap-[2px]">
-      {unique.map((src) => (
-        <div
-          key={src}
-          className="flex-1 min-w-[4px]"
-          style={{ backgroundColor: sourceColor(src) }}
-          title={src}
-        />
-      ))}
-      {unique.length === 0 && <div className="flex-1 bg-gray-200" />}
-    </div>
-  );
-}
 
-function StoryCard({ group }: { group: StoryGroup }) {
-  const isBlindspot = group.sources.length === 1;
-  const uniqueSources = [...new Set(group.sources)];
 
-  return (
-    <article className="border-b border-gray-100 last:border-0 py-5">
-      {/* Topic + badges */}
-      <div className="flex items-center gap-2 mb-2 flex-wrap">
-        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 uppercase tracking-wide">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-          Islam &amp; Muslimit
-        </span>
-        {isBlindspot && (
-          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200 uppercase tracking-wide">
-            <span className="text-amber-500">⚠</span>
-            Katvealue
-          </span>
-        )}
-        {group.articles.length > 1 && (
-          <span className="text-[11px] font-semibold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200 uppercase tracking-wide">
-            {group.articles.length} lähdettä
-          </span>
-        )}
-      </div>
 
-      {/* Headline */}
-      <a
-        href={group.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group/link block mb-3"
-      >
-        <h2 className="text-[15px] font-semibold text-gray-900 leading-snug group-hover/link:text-blue-700 transition-colors">
-          {group.headline}
-        </h2>
-      </a>
 
-      {/* Meta */}
-      <div className="flex items-center gap-2 text-xs text-gray-400 mb-3">
-        <span>{timeAgo(group.date)} sitten</span>
-        <span>·</span>
-        <span>{uniqueSources.length === 1 ? uniqueSources[0] : `${uniqueSources.length} mediaa`}</span>
-      </div>
-
-      {/* Coverage bar */}
-      <div className="mb-2">
-        <CoverageBar sources={group.sources} />
-      </div>
-
-      {/* Source links */}
-      {group.articles.length > 1 && (
-        <div className="flex gap-3 flex-wrap mt-2">
-          {group.articles.map((article, i) => (
-            <a
-              key={article.url + i}
-              href={article.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-gray-500 hover:text-gray-900 transition-colors"
-            >
-              <span
-                className="w-1.5 h-1.5 rounded-full shrink-0"
-                style={{ backgroundColor: sourceColor(article.source) }}
-              />
-              {article.source}
-            </a>
-          ))}
-        </div>
-      )}
-    </article>
-  );
-}
 
 export default async function Home() {
   const groups = await getStoryGroups();
