@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Islam & muslimit – Suomen uutiset",
+  title: "Muslims in Finland – Suomen uutiset",
   description: "Islam- ja muslimiaiheiset uutiset suurimmista suomalaisista medioista",
 };
 

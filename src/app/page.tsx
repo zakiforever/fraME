@@ -204,10 +204,10 @@ export default async function Home() {
               </p>
               <ul className="space-y-0.5">
                 {[
-                  { label: "Islam & Muslimit", active: true, count: groups.length },
-                  { label: "Lähi-itä", active: false },
-                  { label: "Maahanmuutto", active: false },
-                  { label: "Uskonto", active: false },
+                  { label: "Muslims in Finland", active: true, count: groups.length },
+                  { label: "Family", active: false },
+                  { label: "Politics", active: false },
+                  { label: "Religion", active: false },
                 ].map(({ label, active, count }) => (
                   <li key={label}>
                     <a
