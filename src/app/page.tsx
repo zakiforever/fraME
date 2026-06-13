@@ -1,4 +1,7 @@
+"use client";
+
 import { getStoryGroups, type StoryGroup } from "@/lib/feeds";
+import { useState } from "react";
 
 export const revalidate = 300;
 
@@ -76,6 +79,7 @@ function CoverageBar({ sources }: { sources: string[] }) {
 
 function StoryCard({ group }: { group: StoryGroup }) {
   const isBlindspot = group.sources.length === 1;
+  const [isOpen, setIsOpen] = useState(false)
   const uniqueSources = [...new Set(group.sources)];
 
   return (
@@ -143,6 +147,26 @@ function StoryCard({ group }: { group: StoryGroup }) {
           ))}
         </div>
       )}
+      <div className="flex justify-end w-full">
+  <button
+    onClick={() => setIsOpen(!isOpen)}
+    className="text-xs bg-white text-gray-900 px-3 py-1.5 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+  >
+    Expert comments
+  </button>
+</div>
+
+{isOpen && (
+  <div className="mt-2 text-sm text-gray-700 space-y-2">
+    <p>
+      – I have not heard before that there has been a particular need for such
+      instructions. It has also been noted in the public debate that there have
+      been very few such cases.
+    </p>
+    <p className="font-semibold">Shramarke Aw-Musse</p>
+    <p className="text-gray-500">Imam of Myyrmäki Mosque</p>
+  </div>
+)}
     </article>
   );
 }
@@ -205,7 +229,6 @@ export default async function Home() {
               <ul className="space-y-0.5">
                 {[
                   { label: "Islam & Muslimit", active: true, count: groups.length },
-                  { label: "Lähi-itä", active: false },
                   { label: "Maahanmuutto", active: false },
                   { label: "Uskonto", active: false },
                 ].map(({ label, active, count }) => (
