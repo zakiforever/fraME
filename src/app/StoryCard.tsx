@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import { type StoryGroup } from "@/lib/feeds";
 
 // Map source name fragments → brand colors
@@ -85,29 +82,7 @@ function CoverageBar({ sources }: { sources: string[] }) {
 
 export default function StoryCard({ group }: { group: StoryGroup }) {
   const isBlindspot = group.sources.length === 1;
-  const [isExpertOpen, setIsExpertOpen] = useState(false);
-  const [isBackgroundOpen, setIsBackgroundOpen] = useState(false);
-  const [shareMenuOpen, setShareMenuOpen] = useState(false);
   const uniqueSources = [...new Set(group.sources)];
-
-  const shareToWhatsApp = () => {
-    const text = encodeURIComponent(`${group.headline}\n${group.url}`);
-    const whatsappUrl = `https://wa.me/?text=${text}`;
-    window.open(whatsappUrl, "_blank");
-    setShareMenuOpen(false);
-  };
-
-  const shareToFacebook = () => {
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(group.url)}`;
-    window.open(facebookUrl, "_blank", "width=600,height=400");
-    setShareMenuOpen(false);
-  };
-
-  const shareToLinkedIn = () => {
-    const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(group.url)}`;
-    window.open(linkedInUrl, "_blank", "width=600,height=400");
-    setShareMenuOpen(false);
-  };
 
   return (
     <article className="border-b border-gray-100 last:border-0 py-5">
@@ -177,125 +152,6 @@ export default function StoryCard({ group }: { group: StoryGroup }) {
             </a>
           ))}
         </div>
-      )}
-      <div className="flex justify-end w-full">
-        <button
-          onClick={() => setIsExpertOpen(!isExpertOpen)}
-          className={
-            "flex text-xs text-gray-900 px-3 py-1.5 rounded-full font-semibold hover:bg-gray-100 transition-colors cursor-pointer " +
-            (isExpertOpen && "bg-green-400")
-          }
-        >
-          <img
-            src="down-chevron.svg"
-            width="16"
-            className={`mr-1 transition-transform duration-300 ${isExpertOpen ? "rotate-180" : ""}`}
-          ></img>{" "}
-          Expert comments
-        </button>
-      </div>
-
-      {isExpertOpen && (
-        <div className="mt-2 text-sm text-gray-700 space-y-2">
-          <p>
-            – I have not heard before that there has been a particular need for
-            such instructions. It has also been noted in the public debate that
-            there have been very few such cases.
-          </p>
-          <div className="relative">
-            <button 
-              onClick={() => setShareMenuOpen(!shareMenuOpen)}
-              className="cursor-pointer flex text-xs text-gray-900 px-3 py-1.5 rounded-full font-semibold hover:bg-gray-100 transition-colors"
-              title="Share this comment"
-            >
-              <img
-                src="share.svg"
-                width="16"
-                className="mr-1"
-              ></img>
-              Share
-            </button>
-            {shareMenuOpen && (
-              <div className="absolute left-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
-                <button
-                  onClick={shareToWhatsApp}
-                  className="flex w-full text-left px-4 py-2 text-xs text-gray-900 hover:bg-gray-50 transition-colors first:rounded-t-lg"
-                >
-                  <img src="whatsapp.png" width="16" className="mr-1" />
-                  WhatsApp
-                </button>
-                <button
-                  onClick={shareToFacebook}
-                  className="flex w-full text-left px-4 py-2 text-xs text-gray-900 hover:bg-gray-50 transition-colors"
-                >
-                  <img src="facebook.png" width="16" className="mr-1" />
-                  Facebook
-                </button>
-                <button
-                  onClick={shareToLinkedIn}
-                  className="flex w-full text-left px-4 py-2 text-xs text-gray-900 hover:bg-gray-50 transition-colors last:rounded-b-lg"
-                >
-                  <img src="linkedin.png" width="16" className="mr-1" />
-                  LinkedIn
-                </button>
-              </div>
-            )}
-          </div>
-          <p className="font-semibold text-center">Shramarke Aw-Musse</p>
-          <p className="text-gray-500 text-center">Imam of Myyrmäki Mosque</p>
-        </div>
-      )}
-      <div className="flex justify-end w-full ">
-        <button
-          onClick={() => setIsBackgroundOpen(!isBackgroundOpen)}
-          className={
-            "flex text-xs text-gray-900 px-3 py-1.5 rounded-full font-semibold hover:bg-gray-100 transition-colors cursor-pointer " +
-            (isBackgroundOpen && "bg-green-400")
-          }
-        >
-          <img
-            src="down-chevron.svg"
-            width="16"
-            className={`mr-1 transition-transform duration-300 ${isBackgroundOpen ? "rotate-180" : ""}`}
-          ></img>
-          Background info
-        </button>
-      </div>
-
-      {isBackgroundOpen && (
-        <div className="mt-2 text-sm text-gray-700 space-y-2">
-          <p>
-            – Finns Party MP Vesa-Matti Saarakkala submitted a bill that would
-            ban wearing of face-covering burqas and niqabs in public places,
-            subject to a fine. According to him, Finland should intervene now,
-            when the intervention does not yet affect a significant number of
-            people in Finland, in order to maintain social peace.
-          </p>
-          <p className="font-semibold text-center">
-            Source: 3.5.2013{" "}
-            <a className="underline" href="www.website.com">
-              www.website.com
-            </a>
-          </p>
-        </div>
-      )}
-
-      <div className="flex justify-end w-full ">
-        <a
-          href="https://108b0ff9b8.clvaw-cdnwnd.com/c6673b656bd2599ee2673be9a1af532a/200000531-28fd528fd7/Statement_Niqab-ban_2025.pdf?ph=108b0ff9b8"
-          target="_blank"
-        >
-          <button className="cursor-pointer text-xs text-gray-900 px-3 py-1.5 rounded-full font-semibold hover:bg-gray-100 transition-colors ">
-            &#x279A; View Statement
-          </button>
-        </a>
-      </div>
-
-      {shareMenuOpen && (
-        <div
-          className="fixed inset-0 z-0"
-          onClick={() => setShareMenuOpen(false)}
-        />
       )}
     </article>
   );

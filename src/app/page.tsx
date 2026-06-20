@@ -1,5 +1,6 @@
 import { getStoryGroups } from "@/lib/feeds";
 import StoryCard from "@/app/StoryCard";
+import Header from "@/app/Header";
 
 export const revalidate = 300;
 
@@ -59,53 +60,12 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-[#f6f7f9]">
-      {/* ── Header ── */}
-      <header className="sticky top-0 z-50 bg-white shadow-xl">
-        <div className="max-w-6xl mx-auto px-4 h-14 flex items-center">
-          <img src="/logo.png" alt="fraME" className="h-auto w-auto max-h-30"/>
-        </div>
-      </header>
+      <Header />
 
       <div className="max-w-6xl mx-auto px-4 py-6 flex gap-6">
         {/* ── Sidebar ── */}
         <aside className="hidden lg:block w-56 shrink-0">
           <div className="sticky top-20 space-y-4">
-            {/* Topic filter */}
-            <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-sm">
-              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">
-                Topics
-              </p>
-              <ul className="space-y-0.5">
-                {[
-                  { label: "Muslims in Finland", active: true, count: groups.length },
-                  { label: "Family", active: false },
-                  { label: "Politics", active: false },
-                  { label: "Religion", active: false },
-                ].map(({ label, active, count }) => (
-                  <li key={label}>
-                    <a
-                      href="#"
-                      className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm transition-colors ${
-                        active
-                          ? "bg-[#0d1117] text-white font-semibold"
-                          : "text-gray-600 hover:bg-gray-100"
-                      }`}
-                    >
-                      <span>{label}</span>
-                      {count !== undefined && (
-                        <span
-                          className={`text-[11px] font-bold tabular-nums ${
-                            active ? "text-gray-400" : "text-gray-400"
-                          }`}
-                        >
-                          {count}
-                        </span>
-                      )}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
 
             {/* Source legend */}
             <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-sm">
