@@ -104,6 +104,16 @@ async function fetchXML(url: string): Promise<Record<string, unknown>[]> {
 
 const BLOCKED_SOURCES = ["anteryasa.fi"];
 
+// Manually pinned articles that fell outside the RSS window
+const PINNED_ARTICLES: Article[] = [
+  {
+    title: "Luvaton moskeija paljastui Espoossa",
+    url: "https://www.is.fi/kotimaa/art-2000012079036.html",
+    date: new Date("2026-06-15"),
+    source: "Ilta-Sanomat",
+  },
+];
+
 // Parse a Google News RSS item — title format: "Headline - Source Name"
 async function fetchGoogleNews(): Promise<Article[]> {
   const articles: Article[] = [];
@@ -211,7 +221,7 @@ export async function getStoryGroups(): Promise<StoryGroup[]> {
   const directArticles = directResults.flat();
 
   // Merge: prefer Google News for breadth, direct feeds for validation
-  const all = [...googleArticles, ...directArticles];
+  const all = [...googleArticles, ...directArticles, ...PINNED_ARTICLES];
 
   // Deduplicate by URL
   const seen = new Set<string>();
