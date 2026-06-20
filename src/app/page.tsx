@@ -102,10 +102,15 @@ export default async function Home() {
                     : "Ladataan…"}
                 </p>
               </div>
-              <div className="text-right shrink-0">
-                <span className="text-[11px] text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
-                  5 min välein
-                </span>
+              <div className="text-right shrink-0 space-y-1">
+                <div>
+                  <span className="text-[11px] text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
+                    5 min välein
+                  </span>
+                </div>
+                <p className="text-[11px] text-gray-400">
+                  Päivitetty {new Date().toLocaleTimeString("fi-FI", { hour: "2-digit", minute: "2-digit" })}
+                </p>
               </div>
             </div>
 

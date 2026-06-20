@@ -19,7 +19,7 @@ export interface StoryGroup {
 const GOOGLE_NEWS_FEEDS = [
   {
     name: "google",
-    url: "https://news.google.com/rss/search?q=muslimi+suomi+OR+islam+suomi+OR+moskeija+suomi+OR+muslimeja+suomi&hl=fi&gl=FI&ceid=FI:fi",
+    url: "https://news.google.com/rss/search?q=muslimi+suomi+OR+islam+suomi+OR+moskeija+suomi+OR+muslimeja+suomi&hl=fi-FI&gl=FI&ceid=FI:fi",
   },
 ];
 
@@ -28,6 +28,8 @@ const DIRECT_SOURCES = [
   { name: "Yle Uutiset",       url: "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_UUTISET&limit=100" },
   { name: "Helsingin Sanomat", url: "https://www.hs.fi/rss/tuoreimmat.xml" },
   { name: "Ilta-Sanomat",      url: "https://www.is.fi/rss/tuoreimmat.xml" },
+  { name: "Ilta-Sanomat",      url: "https://www.is.fi/rss/kotimaa.xml" },
+  { name: "Ilta-Sanomat",      url: "https://www.is.fi/rss/ulkomaat.xml" },
   { name: "Iltalehti",         url: "https://www.iltalehti.fi/rss/uutiset.xml" },
   { name: "MTV Uutiset",       url: "https://www.mtvuutiset.fi/rss/uutiset.rss" },
   { name: "Aamulehti",         url: "https://www.aamulehti.fi/rss.xml" },
@@ -37,11 +39,11 @@ const DIRECT_SOURCES = [
 ];
 
 const SUBSTR_KEYWORDS = [
-  "islam", "muslimi", "muslim", "moskeija", "mosque",
+  "islam", "muslimi", "muslim", "muslimien", "muslimeja", "moskeija", "mosque",
   "koraani", "quran", "sharia", "ramadan", "hijab",
   "imami", "jihaad", "jihad", "islamist", "mekka",
   "medina", "muhammed", "minareetti", "islamofobia",
-  "islamophobi", "islamismia", "islamistinen",
+  "islamophobi", "islamismia", "islamistinen", "islaminuskoinen", "islaminuskoisia",
   "burkha", "eid-juhla", "niqab", "rukoushuone", "halal",
 ];
 
