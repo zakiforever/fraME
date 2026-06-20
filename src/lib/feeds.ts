@@ -42,9 +42,10 @@ const SUBSTR_KEYWORDS = [
   "imami", "jihaad", "jihad", "islamist", "mekka",
   "medina", "muhammed", "minareetti", "islamofobia",
   "islamophobi", "islamismia", "islamistinen",
+  "burkha", "eid-juhla", "niqab", "rukoushuone", "halal",
 ];
 
-const WORD_PATTERNS = ["imam", "eid", "sunni", "shiia", "hamas"].map(
+const WORD_PATTERNS = ["imam", "eid", "sunni", "shiia"].map(
   (kw) => new RegExp(`(?:^|[^a-zäöåA-ZÄÖÅ])${kw}(?:[^a-zäöåA-ZÄÖÅ]|$)`, "i")
 );
 
@@ -106,6 +107,8 @@ const FAKE_HACKATHON_ARTICLE: Article = {
   source: "Ilta-Sanomat",
 };
 
+const BLOCKED_SOURCES = ["anteryasa.fi"];
+
 // Parse a Google News RSS item — title format: "Headline - Source Name"
 async function fetchGoogleNews(): Promise<Article[]> {
   const articles: Article[] = [FAKE_HACKATHON_ARTICLE];
@@ -120,7 +123,7 @@ async function fetchGoogleNews(): Promise<Article[]> {
       const raw = rawText(item.pubDate ?? item.published ?? "");
       const date = raw ? new Date(raw) : new Date(0);
       const desc = rawText(item.description ?? "");
-      if (title.length > 5 && matchesFinland(title + " " + desc)) {
+      if (title.length > 5 && matchesFinland(title + " " + desc) && !BLOCKED_SOURCES.some((b) => source.toLowerCase().includes(b))) {
         articles.push({ title, url, date, source });
       }
     }
