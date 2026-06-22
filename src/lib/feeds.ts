@@ -104,8 +104,8 @@ async function fetchXML(url: string): Promise<Record<string, unknown>[]> {
 
 const BLOCKED_SOURCES = ["anteryasa.fi"];
 
-// Manually pinned articles that fell outside the RSS window
-const PINNED_ARTICLES: Article[] = [
+// Articles that fell outside the RSS window, added here at their original date
+const ARCHIVE_ARTICLES: Article[] = [
   {
     title: "Luvaton moskeija paljastui Espoossa",
     url: "https://www.is.fi/kotimaa/art-2000012079036.html",
@@ -221,7 +221,7 @@ export async function getStoryGroups(): Promise<StoryGroup[]> {
   const directArticles = directResults.flat();
 
   // Merge: prefer Google News for breadth, direct feeds for validation
-  const all = [...googleArticles, ...directArticles, ...PINNED_ARTICLES];
+  const all = [...googleArticles, ...directArticles, ...ARCHIVE_ARTICLES];
 
   // Deduplicate by URL
   const seen = new Set<string>();
