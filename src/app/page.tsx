@@ -111,7 +111,7 @@ export default async function Home() {
                   <RefreshButton />
                 </div>
                 <p className="text-[11px] text-gray-400">
-                  Päivitetty {new Date().toLocaleTimeString("fi-FI", { hour: "2-digit", minute: "2-digit" })}
+                  Päivitetty {new Date().toLocaleTimeString("fi-FI", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Helsinki" })}
                 </p>
               </div>
             </div>
