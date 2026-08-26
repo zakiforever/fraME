@@ -1,6 +1,7 @@
-import { getStoryGroups } from "@/lib/feeds";
+import { getStoryGroups } from "@/lib/archive";
 import StoryCard from "@/app/StoryCard";
 import Header from "@/app/Header";
+import RefreshButton from "@/app/RefreshButton";
 
 export const revalidate = 300;
 
@@ -103,10 +104,11 @@ export default async function Home() {
                 </p>
               </div>
               <div className="text-right shrink-0 space-y-1">
-                <div>
+                <div className="flex items-center justify-end gap-1.5">
                   <span className="text-[11px] text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
                     5 min välein
                   </span>
+                  <RefreshButton />
                 </div>
                 <p className="text-[11px] text-gray-400">
                   Päivitetty {new Date().toLocaleTimeString("fi-FI", { hour: "2-digit", minute: "2-digit" })}

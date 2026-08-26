@@ -182,7 +182,7 @@ function wordOverlap(a: Set<string>, b: Set<string>): number {
   return n;
 }
 
-function groupArticles(articles: Article[]): StoryGroup[] {
+export function groupArticles(articles: Article[]): StoryGroup[] {
   const used = new Set<number>();
   const groups: StoryGroup[] = [];
 
@@ -212,25 +212,27 @@ function groupArticles(articles: Article[]): StoryGroup[] {
   return groups;
 }
 
-export async function getStoryGroups(): Promise<StoryGroup[]> {
+export function dedupeByUrl(articles: Article[]): Article[] {
+  const seen = new Set<string>();
+  return articles.filter((a) => {
+    if (!a.url || seen.has(a.url)) return false;
+    seen.add(a.url);
+    return true;
+  });
+}
+
+// Hits every source once and returns whatever currently matches — this is a
+// snapshot of each feed's *current* window, not a durable history. Rolled-off
+// items are gone unless captured elsewhere (see src/lib/archive.ts).
+export async function fetchLiveArticles(): Promise<Article[]> {
   const [googleArticles, ...directResults] = await Promise.all([
     fetchGoogleNews(),
     ...DIRECT_SOURCES.map(fetchDirectFeed),
   ]);
 
   const directArticles = directResults.flat();
-
   // Merge: prefer Google News for breadth, direct feeds for validation
-  const all = [...googleArticles, ...directArticles, ...ARCHIVE_ARTICLES];
-
-  // Deduplicate by URL
-  const seen = new Set<string>();
-  const unique = all.filter((a) => {
-    if (!a.url || seen.has(a.url)) return false;
-    seen.add(a.url);
-    return true;
-  });
-
-  unique.sort((a, b) => b.date.getTime() - a.date.getTime());
-  return groupArticles(unique);
+  return dedupeByUrl([...googleArticles, ...directArticles]);
 }
+
+export { ARCHIVE_ARTICLES };
