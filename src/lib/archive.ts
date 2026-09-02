@@ -6,6 +6,7 @@ import {
   dedupeByUrl,
   fetchLiveArticles,
   groupArticles,
+  isBlockedArticle,
 } from "@/lib/feeds";
 
 // Every article this file has ever matched, kept forever — so an item that
@@ -112,9 +113,9 @@ async function scrapeAndPersist(): Promise<{ articles: Article[]; added: number 
 
 export async function getStoryGroups(): Promise<StoryGroup[]> {
   const { articles } = await scrapeAndPersist();
-  const all = dedupeByUrl([...articles, ...ARCHIVE_ARTICLES]).sort(
-    (a, b) => b.date.getTime() - a.date.getTime()
-  );
+  const all = dedupeByUrl([...articles, ...ARCHIVE_ARTICLES])
+    .filter((a) => !isBlockedArticle(a.url))
+    .sort((a, b) => b.date.getTime() - a.date.getTime());
   return groupArticles(all);
 }
 

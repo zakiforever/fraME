@@ -104,6 +104,18 @@ async function fetchXML(url: string): Promise<Record<string, unknown>[]> {
 
 const BLOCKED_SOURCES = ["anteryasa.fi"];
 
+// Individual articles that matched the keyword filters (e.g. "rukoushuone" is
+// generic Finnish for "prayer house", not specific to Islam) but aren't
+// actually about Muslims/Islam. Matched by URL with the query string
+// stripped, since sources often append tracking params (?origin=rss, etc).
+const BLOCKED_URLS = new Set([
+  "https://yle.fi/a/74-20242550", // Lutheran parish prayer house for sale — unrelated false match
+]);
+
+export function isBlockedArticle(url: string): boolean {
+  return BLOCKED_URLS.has(url.split("?")[0]);
+}
+
 // Articles that fell outside the RSS window, added here at their original date
 const ARCHIVE_ARTICLES: Article[] = [
   {
@@ -232,7 +244,9 @@ export async function fetchLiveArticles(): Promise<Article[]> {
 
   const directArticles = directResults.flat();
   // Merge: prefer Google News for breadth, direct feeds for validation
-  return dedupeByUrl([...googleArticles, ...directArticles]);
+  return dedupeByUrl([...googleArticles, ...directArticles]).filter(
+    (a) => !isBlockedArticle(a.url)
+  );
 }
 
 export { ARCHIVE_ARTICLES };
